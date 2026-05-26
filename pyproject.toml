@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sam-vos-coursework"
+version = "0.1.0"
+description = "Coursework scaffold for SAM2-based image and video object segmentation"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy",
+  "pillow",
+  "opencv-python",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+]
+hf = [
+  "huggingface_hub",
+]
+
+[project.scripts]
+sam-vos = "sam_vos.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
