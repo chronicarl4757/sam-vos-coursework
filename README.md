@@ -113,6 +113,20 @@ HF_ENDPOINT=https://hf-mirror.com
 bash scripts/smoke_sam2.sh
 ```
 
+如果你在 Colab 上跑，可以直接用一键启动脚本：
+
+```bash
+bash scripts/colab_bootstrap.sh --run-smoke
+```
+
+Colab 中的推荐步骤：
+
+```bash
+git clone https://github.com/chronicarl4757/sam-vos-coursework.git
+cd sam-vos-coursework
+bash scripts/colab_bootstrap.sh --run-smoke
+```
+
 更完整的文档入口见：
 
 - [`docs/README.md`](docs/README.md)
