@@ -127,6 +127,13 @@ cd sam-vos-coursework
 bash scripts/colab_bootstrap.sh --run-smoke
 ```
 
+如果已经完成环境安装，可以分别跑图像或视频：
+
+```bash
+bash scripts/run_image_colab.sh --image /content/your_image.jpg --box 120,80,640,520
+bash scripts/run_video_colab.sh --video /content/your_video.mp4 --box 120,80,640,520
+```
+
 更完整的文档入口见：
 
 - [`docs/README.md`](docs/README.md)
