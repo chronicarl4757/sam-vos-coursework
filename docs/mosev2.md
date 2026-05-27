@@ -73,6 +73,30 @@ python scripts/run_mosev2_from_annotations.py \
 
 Use `--frame-step 1` for a real Codabench submission.
 
+## Fix Existing sam-vos Mask Zips
+
+If Codabench reports an error like:
+
+```text
+invalid literal for int() with base 10: 'mask_00127'
+```
+
+the submitted PNG filenames still contain the `mask_` prefix. Normalize the zip before uploading:
+
+```bash
+python scripts/fix_mosev2_submission_zip.py \
+  --input /content/drive/MyDrive/sam_vos_final_submission.zip \
+  --output /content/drive/MyDrive/mosev2_submission_fixed.zip
+```
+
+The fixed zip uses:
+
+```text
+sample_submission/video_id/00000.png
+```
+
+It also converts RGB binary masks to single-channel indexed PNG masks.
+
 ## Report Notes
 
 Record these items in the report:
@@ -82,4 +106,3 @@ Record these items in the report:
 - Metrics: `J`, `F`, `J&F`, `Ḟ`, `J&Ḟ`, plus disappear/reappear metrics if available.
 - Whether the run used `sam2.1_hiera_tiny`, `small`, `base_plus`, or `large`.
 - Failure analysis: disappearance, reappearance, occlusion, small objects, similar distractors, and mask drift.
-
