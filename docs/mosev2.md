@@ -2,6 +2,8 @@
 
 Codabench page: https://www.codabench.org/competitions/10062/
 
+For a full Colab notebook-style workflow, see [MOSEv2 Colab Notebook Blocks](./mosev2_colab_notebook.md).
+
 ## Submission Format
 
 MOSEv2 expects a `.zip` file. The root of the zip must contain video folders directly. Each video folder contains predicted indexed-mask PNG files whose filenames match the image frame names:

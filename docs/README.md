@@ -13,6 +13,7 @@
 - [Benchmark 清单](./benchmark_checklist.md)
 - [SAM Benchmark](./sam_benchmark.md)
 - [MOSEv2 Benchmark](./mosev2.md)
+- [MOSEv2 Colab Notebook Blocks](./mosev2_colab_notebook.md)
 
 ## 推荐阅读顺序
 
@@ -20,7 +21,7 @@
 2. 再看 [运行指南](./usage.md)
 3. Benchmark 提交看 [SAM Benchmark](./sam_benchmark.md)
 4. 做实验时填 [实验记录模板](./experiment_log_template.md)
-5. 进阶项从 [MOSEv2 Benchmark](./mosev2.md) 开始
+5. 进阶项从 [MOSEv2 Benchmark](./mosev2.md) 和 [MOSEv2 Colab Notebook Blocks](./mosev2_colab_notebook.md) 开始
 6. 最后按 [报告大纲](./report_outline.md) 写正文
 
 ## 当前交付约定
