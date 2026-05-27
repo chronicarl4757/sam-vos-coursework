@@ -153,6 +153,23 @@ bash scripts/run_jpeg_dataset_colab.sh \
   --local-root /content/sam_jpeg_cache
 ```
 
+基础 SAM Benchmark 不要直接提交 `sam-vos video` 的 `masks/mask_*.png`。参考 notebook 的正确做法是用首帧 annotation 作为 mask prompt：
+
+```bash
+python scripts/run_sam_benchmark_from_annotations.py \
+  --dataset-root /content/video_dataset \
+  --output-root /content/drive/MyDrive/sam_benchmark_submit \
+  --checkpoint /content/sam2-checkpoints/sam2.1_hiera_tiny.pt \
+  --model-cfg /content/sam2/sam2/configs/sam2.1/sam2.1_hiera_t.yaml \
+  --device cuda \
+  --copy-to-local \
+  --local-root /content/sam_frames_cache \
+  --save-overlays \
+  --overlay-stride 25
+```
+
+标准提交文件夹是 `sam_benchmark_submit/sample_submission/`，overlay 单独放在 `sam_benchmark_submit/overlays/`，上传文件是 `sam_benchmark_submit/submission.zip`。具体见 [`docs/sam_benchmark.md`](docs/sam_benchmark.md)。
+
 MOSEv2 进阶提交可以用首帧标注自动生成 SAM2 提示，并打包 Codabench zip：
 
 ```bash
