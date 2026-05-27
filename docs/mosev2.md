@@ -8,11 +8,11 @@ MOSEv2 expects a `.zip` file. The root of the zip must contain video folders dir
 
 ```text
 submission.zip
-├── video_name_1
+├── video_name_1/
 │   ├── 00000.png
 │   ├── 00001.png
 │   └── ...
-├── video_name_2
+├── video_name_2/
 │   ├── 00000.png
 │   ├── 00001.png
 │   └── ...
@@ -37,7 +37,7 @@ MOSEv2/
         └── ...
 ```
 
-It reads the first-frame annotation, extracts one box prompt for each object id, runs SAM2 video propagation object by object, and writes indexed PNG masks for submission.
+It reads the first-frame annotation, uses each object mask as a SAM2 `add_new_mask` prompt, propagates all objects through the video, and writes indexed PNG masks for submission.
 
 ## Colab Usage
 
@@ -51,13 +51,29 @@ python scripts/run_mosev2_from_annotations.py \
   --output-root /content/drive/MyDrive/mosev2_sam2_tiny \
   --checkpoint /content/sam2-checkpoints/sam2.1_hiera_tiny.pt \
   --model-cfg /content/sam2/sam2/configs/sam2.1/sam2.1_hiera_t.yaml \
-  --device cuda
+  --device cuda \
+  --copy-to-local \
+  --local-root /content/mosev2_frames_cache \
+  --save-overlays \
+  --overlay-stride 25
 ```
 
 The upload file is:
 
 ```text
 /content/drive/MyDrive/mosev2_sam2_tiny/submission.zip
+```
+
+The standard submission folder is:
+
+```text
+/content/drive/MyDrive/mosev2_sam2_tiny/submission/
+```
+
+Visual overlays are stored separately:
+
+```text
+/content/drive/MyDrive/mosev2_sam2_tiny/overlays/
 ```
 
 For a short dry run:
@@ -67,11 +83,11 @@ python scripts/run_mosev2_from_annotations.py \
   --dataset-root /content/MOSEv2/valid \
   --output-root /content/drive/MyDrive/mosev2_dry_run \
   --limit 1 \
-  --frame-step 5 \
-  --device cuda
+  --device cuda \
+  --no-zip
 ```
 
-Use `--frame-step 1` for a real Codabench submission.
+Do not use frame skipping for a real Codabench submission. The runner writes every frame by default.
 
 ## Fix Existing sam-vos Mask Zips
 
@@ -95,7 +111,7 @@ The fixed zip uses:
 sample_submission/video_id/00000.png
 ```
 
-It also converts RGB binary masks to single-channel indexed PNG masks.
+This helper is only for repairing old binary-mask zips. It is not the recommended MOSEv2 runner, because it cannot recover object ids that were lost in an old binary mask.
 
 ## Report Notes
 

@@ -2,9 +2,6 @@ import importlib.util
 import sys
 from pathlib import Path
 
-import numpy as np
-
-
 def load_runner_module():
     path = Path(__file__).resolve().parents[1] / "scripts" / "run_mosev2_from_annotations.py"
     spec = importlib.util.spec_from_file_location("run_mosev2_from_annotations", path)
@@ -15,15 +12,17 @@ def load_runner_module():
     return module
 
 
-def test_object_prompts_from_index_mask():
+def test_zip_submission_direct_has_video_dirs_at_root(tmp_path):
     runner = load_runner_module()
-    mask = np.zeros((8, 10), dtype=np.uint8)
-    mask[2:5, 3:7] = 1
-    mask[6:8, 1:3] = 2
+    submission_dir = tmp_path / "submission"
+    video_dir = submission_dir / "abc"
+    video_dir.mkdir(parents=True)
+    (video_dir / "00000.png").write_bytes(b"fake")
 
-    prompts = runner.object_prompts_from_mask(mask, margin=1)
+    zip_path = tmp_path / "submission.zip"
+    runner.zip_submission_direct(submission_dir, zip_path)
 
-    assert [(p.object_id, p.box) for p in prompts] == [
-        (1, (2, 1, 7, 5)),
-        (2, (0, 5, 3, 7)),
-    ]
+    import zipfile
+
+    with zipfile.ZipFile(zip_path) as archive:
+        assert archive.namelist() == ["abc/00000.png"]

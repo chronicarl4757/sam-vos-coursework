@@ -178,10 +178,14 @@ python scripts/run_mosev2_from_annotations.py \
   --output-root /content/drive/MyDrive/mosev2_sam2_tiny \
   --checkpoint /content/sam2-checkpoints/sam2.1_hiera_tiny.pt \
   --model-cfg /content/sam2/sam2/configs/sam2.1/sam2.1_hiera_t.yaml \
-  --device cuda
+  --device cuda \
+  --copy-to-local \
+  --local-root /content/mosev2_frames_cache \
+  --save-overlays \
+  --overlay-stride 25
 ```
 
-上传文件是 `mosev2_sam2_tiny/submission.zip`。具体格式见 [`docs/mosev2.md`](docs/mosev2.md)。
+标准提交文件夹是 `mosev2_sam2_tiny/submission/`，overlay 单独放在 `mosev2_sam2_tiny/overlays/`，上传文件是 `mosev2_sam2_tiny/submission.zip`。具体格式见 [`docs/mosev2.md`](docs/mosev2.md)。
 
 更完整的文档入口见：
 
