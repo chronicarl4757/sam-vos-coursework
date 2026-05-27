@@ -134,6 +134,15 @@ bash scripts/run_image_colab.sh --image /content/your_image.jpg --box 120,80,640
 bash scripts/run_video_colab.sh --video /content/your_video.mp4 --box 120,80,640,520
 ```
 
+如果你的视频已经解压成帧，目录结构是 `video_dataset/JPEGImages/video_id/frame_id.jpg`，可以直接跑整个数据集：
+
+```bash
+bash scripts/run_jpeg_dataset_colab.sh \
+  --video-root /content/video_dataset/JPEGImages \
+  --box 120,80,640,520 \
+  --make-preview
+```
+
 更完整的文档入口见：
 
 - [`docs/README.md`](docs/README.md)
