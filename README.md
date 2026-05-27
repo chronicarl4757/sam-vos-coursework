@@ -143,6 +143,16 @@ bash scripts/run_jpeg_dataset_colab.sh \
   --make-preview
 ```
 
+如果你的数据放在 Google Drive 或挂载盘上，建议加上本地拷贝，通常会快很多：
+
+```bash
+bash scripts/run_jpeg_dataset_colab.sh \
+  --video-root /content/video_dataset/JPEGImages \
+  --box 120,80,640,520 \
+  --copy-to-local \
+  --local-root /content/sam_jpeg_cache
+```
+
 更完整的文档入口见：
 
 - [`docs/README.md`](docs/README.md)

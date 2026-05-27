@@ -23,6 +23,8 @@ Options:
   --offload-video-to-cpu   Keep frames on CPU to save VRAM.
   --offload-state-to-cpu   Keep state on CPU to save VRAM.
   --async-loading-frames   Use async JPEG loading inside SAM2.
+  --copy-to-local     Copy each video folder to local /content before running.
+  --local-root DIR    Local cache directory used with --copy-to-local.
   --make-preview      Re-encode overlay.mp4 files to h264 preview videos.
   -h, --help          Show this help message
 EOF
@@ -46,6 +48,8 @@ fps=12
 offload_video_to_cpu=1
 offload_state_to_cpu=1
 async_loading_frames=1
+copy_to_local=0
+local_root="/content/sam_jpeg_cache"
 make_preview=0
 
 while [[ $# -gt 0 ]]; do
@@ -64,6 +68,8 @@ while [[ $# -gt 0 ]]; do
     --offload-video-to-cpu) offload_video_to_cpu=1; shift ;;
     --offload-state-to-cpu) offload_state_to_cpu=1; shift ;;
     --async-loading-frames) async_loading_frames=1; shift ;;
+    --copy-to-local) copy_to_local=1; shift ;;
+    --local-root) local_root="${2:?missing value for --local-root}"; shift 2 ;;
     --make-preview) make_preview=1; shift ;;
     -h|--help) usage; exit 0 ;;
     *) echo "Unknown argument: $1" >&2; usage >&2; exit 1 ;;
@@ -105,9 +111,18 @@ for video_dir in "${video_dirs[@]}"; do
   out_dir="$output_root/$video_id"
   mkdir -p "$out_dir"
 
+  run_input="$video_dir"
+  if [[ "$copy_to_local" -eq 1 ]]; then
+    mkdir -p "$local_root"
+    local_video_dir="$local_root/$video_id"
+    rm -rf "$local_video_dir"
+    cp -a "$video_dir" "$local_video_dir"
+    run_input="$local_video_dir"
+  fi
+
   cmd=(
     "$sam_vos_bin" --device "$device" video
-    --video "$video_dir"
+    --video "$run_input"
     --checkpoint "$checkpoint"
     --model-cfg "$model_cfg"
     --output-dir "$out_dir"
